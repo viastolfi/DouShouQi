@@ -12,7 +12,7 @@ extension CellType {
     public var symbol: String {
         switch self {
         case .unknown:
-            return " "
+            return "  "
         case .jungle:
             return "🌿"
         case .den:

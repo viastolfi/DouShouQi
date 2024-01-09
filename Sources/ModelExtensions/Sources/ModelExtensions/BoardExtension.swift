@@ -10,11 +10,17 @@ import Model
 
 extension Board {
     public var classique: String {
-        var out: String = ""
+        var out: String = "  "
         for row in self.grid {
             for cell in row {
-                out += cell.cellType.symbol + cell.piece!.animal.symbol + cell.piece!.owner.symbol + " "
+                if let piece = cell.piece {
+                    out += cell.cellType.symbol + piece.animal.symbol + piece.owner.symbol
+                } else {
+                    out += cell.cellType.symbol + "    "
+                }
+                out += "  "
             }
+            out += "\n\n  "
         }
         return out
     }

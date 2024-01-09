@@ -12,7 +12,7 @@ extension Owner {
     public var symbol: String {
         switch self {
         case .noOne:
-            return " "
+            return "  "
         case .player1:
             return "🟡"
         case .player2:
