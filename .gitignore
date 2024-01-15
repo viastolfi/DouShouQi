@@ -91,3 +91,5 @@ fastlane/test_output
 iOSInjectionProject/
 
 .vscode/
+.DS_Store
+/Sources/.DS_Store
