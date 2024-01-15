@@ -8,23 +8,19 @@
 import Foundation
 
 public struct Board {
-    public let nbRows: Int = 0
-    public let nbColumns: Int = 0
+    public let nbRows: Int
+    public let nbColumns: Int
     public private(set) var grid: [[Cell]]
     
+    // Initializer of the class that can return nil
     public init?(withGrid grid: [[Cell]]) {
-        if grid.isEmpty {
+        // Check if every column of the Grid have the same size, else return nil
+        guard grid.allSatisfy({$0.count == grid[0].count }) else {
             return nil
         }
         
-        let gridSize = grid[0].count
-        
-        for row in grid {
-            if row.count != gridSize {
-                return nil
-            }
-        }
-        
+        self.nbRows = grid[0].count
+        self.nbColumns = grid.count
         self.grid = grid
     }
 }

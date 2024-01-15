@@ -8,6 +8,7 @@
 import Foundation
 
 public struct Piece : CustomStringConvertible {
+    // Rewrite string convertible of the class
     public var description: String {
         "[\(owner):\(animal)]"
     }

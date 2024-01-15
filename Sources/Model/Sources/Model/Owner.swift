@@ -7,12 +7,20 @@
 
 import Foundation
 
-public enum Owner : String, CustomStringConvertible {
+public enum Owner : CustomStringConvertible {
+    // Rewrite string convertible of the class
     public var description: String {
-        self.rawValue
+        switch self {
+        case .noOne:
+            return " "
+        case .player1:
+            return "1"
+        case .player2:
+            return "2"
+        }
     }
     
-    case noOne = "x"
-    case player1 = "1"
-    case player2 = "2"
+    case noOne
+    case player1
+    case player2
 }
