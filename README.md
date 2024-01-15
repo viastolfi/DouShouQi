@@ -15,7 +15,13 @@ https://codefirst.iut.uca.fr/git/mchSamples_Apple/DouShouQi
 git clone https://codefirst.iut.uca.fr/git/vincent.astolfi/DuoShouQi_VincentAstolfi.git
 ```
 
-- Open Xcode then open a new then select the `DuoShouQi.xcworkspace` file 
+- Open Xcode then select open an existing project
+
+![select open an existing project](images/select_open_project_screen.png)
+
+- Click on the workspace folder in Sources
+
+![Select workspace screen](images/select_workspace_screen.png)
 
 - In Xcode, you can now choose the project you want to start
 
