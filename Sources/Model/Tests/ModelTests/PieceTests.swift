@@ -9,6 +9,7 @@ import XCTest
 @testable import Model
 
 final class PieceTests: XCTestCase {
+    // Test if the CustomStringConvertible implementation is working well
     func customStringPieceTest() throws {
         var piece_description = Piece(withOwner: .player1, andAnimal: .dog).description
         assert(piece_description == "[1:dog]")

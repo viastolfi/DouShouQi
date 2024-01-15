@@ -9,9 +9,10 @@ import XCTest
 @testable import Model
 
 final class OwnerTests: XCTestCase {
+    // Test if the CustomStringConvertible implementation is working well
     func ownerDisplayTest() throws {
-        assert(Owner.noOne.rawValue == "x")
-        assert(Owner.player1.rawValue == "1")
-        assert(Owner.player2.rawValue == "2")
+        assert(Owner.noOne.description == "x")
+        assert(Owner.player1.description == "1")
+        assert(Owner.player2.description == "2")
     }
 }

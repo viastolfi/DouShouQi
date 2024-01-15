@@ -8,6 +8,7 @@
 import Foundation
 
 public struct Cell : CustomStringConvertible {
+    // Rewrite string convertible of the class
     public var description: String {
         "\(piece?.description ?? "ø") on .\(cellType), \(initialOwner)"
     }
@@ -16,6 +17,7 @@ public struct Cell : CustomStringConvertible {
     public let initialOwner: Owner
     public let piece: Piece?
     
+    // Initialize Cell with default owner: .noOne and default Piece: nil
     public init(ofType type: CellType, ownedBy owner: Owner = .noOne, withPiece piece: Piece? = nil) {
         self.cellType = type
         self.piece = piece

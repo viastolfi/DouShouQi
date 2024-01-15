@@ -8,6 +8,7 @@
 import Foundation
 
 public enum Owner : CustomStringConvertible {
+    // Rewrite string convertible of the class
     public var description: String {
         switch self {
         case .noOne:

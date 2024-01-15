@@ -11,6 +11,7 @@ import ModelExtensions
 @main
 struct Application: ParsableCommand {
     mutating func run() throws {
+        // Create a board as in the example
         let board = Board(withGrid: [
             [
                 Cell(ofType: .jungle, withPiece: Piece(withOwner: .player1, andAnimal: .lion)),
@@ -104,6 +105,7 @@ struct Application: ParsableCommand {
             ]
         ])
         
+        // If the board is created without problem, print it
         if let boardView = board?.classique {
             print(boardView)
         } else {
