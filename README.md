@@ -29,6 +29,8 @@ git clone https://codefirst.iut.uca.fr/git/vincent.astolfi/DuoShouQi_VincentAsto
 
 If you choose `Application` and then run it you will see the Board that is create as it is in the example. 
 
+![Application output](images/output_screen.png)
+
 You can also choose the Tests package to run them. I've create some test that don't cover all the code but a part of them.
 
 ### Run test using terminal
