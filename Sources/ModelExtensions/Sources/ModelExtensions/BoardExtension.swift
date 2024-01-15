@@ -13,14 +13,9 @@ extension Board {
         var out: String = "  "
         for row in self.grid {
             for cell in row {
-                if let piece = cell.piece {
-                    out += cell.cellType.symbol + piece.animal.symbol + piece.owner.symbol
-                } else {
-                    out += cell.cellType.symbol + "    "
-                }
-                out += "  "
+                out = "\(out)\(cell.cellType.symbol)\(cell.piece?.animal.symbol ?? "  ")\(cell.piece?.owner.symbol ?? "  ")  "
             }
-            out += "\n\n  "
+            out = "\(out)\n\n  "
         }
         return out
     }
