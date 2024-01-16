@@ -1,18 +1,18 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
-// 
-// Swift Argument Parser
-// https://swiftpackageindex.com/apple/swift-argument-parser/documentation
+//
+//  BoardTest.swift
+//  
+//
+//  Created by Vincent Astolfi on 16/01/2024.
+//
 
-import ArgumentParser
-import Model
-import ModelExtensions
+import XCTest
+@testable import Model
 
-@main
-struct Application: ParsableCommand {
-    mutating func run() throws {
-        // Create a board as in the example
-        var board = Board(withGrid: [
+final class BoardTest: XCTestCase {
+
+    private var board: Board!
+    override func setUpWithError() throws {
+        self.board = Board(withGrid: [
             [
                 Cell(ofType: .jungle, withPiece: Piece(withOwner: .player1, andAnimal: .lion)),
                 Cell(ofType: .jungle),
@@ -103,41 +103,38 @@ struct Application: ParsableCommand {
                 Cell(ofType: .jungle),
                 Cell(ofType: .jungle, withPiece: Piece(withOwner: .player2, andAnimal: .lion)),
             ]
-        ])
-        
-        // If the board is created without problem, print it
-        if let boardView = board?.classique {
-            print(boardView)
-            
-            // test if the countPieces functions works
-            print("Number of player1's pieces : \(board!.countPieces(of: .player1))")
-            print("Number of player2's pieces : \(board!.countPieces(of: .player2))")
-            print("Number of each player's pieces : \(board!.countPieces())\n")
-            
-            print("********** Remove test ********** \n")
-            // Check if all the remove pieces case are working
-            var result = board!.remove(atRow: 0, atColumn: 0)
-            print("Result of removing piece at (0,0) : \(result), Number of each player's pieces after removal : \(board!.countPieces()), Number of player1's pieces after removal : \(board!.countPieces(of: .player1))\n")
-            result = board!.remove(atRow: 9, atColumn: 0)
-            print("Result of removing piece at (9,0) : \(result), Number of each player's pieces after removal : \(board!.countPieces()), Number of player2's pieces after removal : \(board!.countPieces(of: .player2))\n")
-            result = board!.remove(atRow: 11, atColumn: 20)
-            print("Result of removing piece at (11,20) : \(result)\n")
-            result = board!.remove(atRow: 9, atColumn: 0)
-            print("Result of removing piece at (9,0) : \(result)\n")
-            
-            print("********** Insertion test ********** \n")
-            // Check if all the insert pieces case are working
-            result = board!.insert(piece: Piece(withOwner: .player1, andAnimal: .lion), atRow: 0, atColumn: 0)
-            print("Result of inserting piece at (0,0) : \(result), Number of each player's pieces after insertion : \(board!.countPieces()), Number of player1's pieces after insertion : \(board!.countPieces(of: .player1))\n")
-            result = board!.insert(piece: Piece(withOwner: .player2, andAnimal: .tiger), atRow: 9, atColumn: 0)
-            print("Result of inserting piece at (9,0) : \(result), Number of each player's pieces after insertion : \(board!.countPieces()), Number of player2's pieces after insertion : \(board!.countPieces(of: .player1))\n")
-            result = board!.insert(piece: Piece(withOwner: .player1, andAnimal: .rat), atRow: 11, atColumn: 20)
-            print("Result of inserting piece at (11,20) : \(result)\n")
-            result = board!.insert(piece: Piece(withOwner: .player1, andAnimal: .elephant), atRow: 9, atColumn: 0)
-            print("Result of inserting piece at (9,0) : \(result)\n")
-        } else {
-            print("Board couldn't be load")
-        }
-        
+        ])!    }
+
+    override func tearDownWithError() throws {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+
+    func testInitializer() throws {
+        XCTAssert(self.board.nbColumns == 7)
+        XCTAssert(self.board.nbRows == 10)
+    }
+    
+    func testCountPieces() throws {
+        XCTAssert(self.board.countPieces(of: .player1) == 8)
+        XCTAssert(self.board.countPieces(of: .player2) == 8)
+        XCTAssert(self.board.countPieces() == (8, 8))
+    }
+    
+    func testRemovePieces() throws {
+        var result = self.board.remove(atRow: 20, atColumn: 20)
+        XCTAssertEqual(result, .failed(reason: .outOfBounds))
+        result = self.board.remove(atRow: 0, atColumn: 0)
+        XCTAssertEqual(result, .ok)
+        result = self.board.remove(atRow: 0, atColumn: 0)
+        XCTAssertEqual(result, .failed(reason: .cellEmpty))
+
+    }
+
+    func testPerformanceExample() throws {
+        // This is an example of a performance test case.
+        self.measure {
+            // Put the code you want to measure the time of here.
+        }
+    }
+
 }

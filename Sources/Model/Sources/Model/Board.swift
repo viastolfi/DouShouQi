@@ -19,8 +19,8 @@ public struct Board {
             return nil
         }
         
-        self.nbRows = grid[0].count
-        self.nbColumns = grid.count
+        self.nbRows = grid.count
+        self.nbColumns = grid[0].count
         self.grid = grid
     }
     
@@ -45,16 +45,20 @@ public struct Board {
             }
         }
         
+        self.grid[row][column] = Cell(ofType: grid[row][column].cellType, ownedBy: grid[row][column].initialOwner, withPiece: piece)
+            
         return .ok
     }
     
-    public func remove(atRow row: Int, atColumn column: Int) -> BoardResult {
+    public mutating func remove(atRow row: Int, atColumn column: Int) -> BoardResult {
         if row > nbRows || column > nbColumns {
             return .failed(reason: .outOfBounds)
         }
         guard grid[row][column].piece != nil && grid[row][column].piece!.owner != .noOne else{
             return .failed(reason: .cellEmpty)
         }
+        
+        self.grid[row][column] = Cell(ofType: grid[row][column].cellType, ownedBy: grid[row][column].initialOwner)
         
         return .ok
     }

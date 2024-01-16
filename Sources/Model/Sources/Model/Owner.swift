@@ -12,7 +12,7 @@ public enum Owner : CustomStringConvertible {
     public var description: String {
         switch self {
         case .noOne:
-            return " "
+            return "x"
         case .player1:
             return "1"
         case .player2:
