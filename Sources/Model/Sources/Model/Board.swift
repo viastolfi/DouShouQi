@@ -23,4 +23,39 @@ public struct Board {
         self.nbColumns = grid.count
         self.grid = grid
     }
+    
+    public func countPieces(of owner: Owner) -> Int {
+        let flat_array = grid.flatMap{ $0 }
+        return flat_array.filter({ $0.piece?.owner == owner }).count
+    }
+    
+    public func countPieces() -> (Int, Int) {
+        let flat_array = grid.flatMap{ $0 }
+        return (flat_array.filter({ $0.piece?.owner == .player1 }).count, flat_array.filter({ $0.piece?.owner == .player2 }).count)
+    }
+    
+    public func insert(piece: Piece, atRow row: Int, atColumn column: Int) -> BoardResult{
+        // .unknown if nothing works ?
+        guard row <= nbRows || column <= nbColumns else {
+            return .failed(reason: .outOfBounds)
+        } 
+        if let piece = grid[row][column].piece {
+            if piece.owner != .noOne {
+                return .failed(reason: .cellNotEmpty)
+            }
+        }
+        
+        return .ok
+    }
+    
+    public func remove(atRow row: Int, atColumn column: Int) -> BoardResult {
+        if row > nbRows || column > nbColumns {
+            return .failed(reason: .outOfBounds)
+        }
+        guard grid[row][column].piece != nil && grid[row][column].piece!.owner != .noOne else{
+            return .failed(reason: .cellEmpty)
+        }
+        
+        return .ok
+    }
 }
