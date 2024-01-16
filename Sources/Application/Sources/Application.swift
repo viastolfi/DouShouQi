@@ -108,6 +108,12 @@ struct Application: ParsableCommand {
         // If the board is created without problem, print it
         if let boardView = board?.classique {
             print(boardView)
+            print("Number of player1's pieces : \(board!.countPieces(of: .player1))")
+            print("Number of player2's pieces : \(board!.countPieces(of: .player2))")
+            print("Number of each player's pieces : \(board!.countPieces())")
+            var result = board!.remove(atRow: 0, atColumn: 0)
+            print("Result of removing piece at (0,0) : \(result), Number of each player's pieces after removal : \(board!.countPieces()), Number of player1's pieces after removal : \(board!.countPieces(of: .player1))")
+            result = board!.remove(atRow: 10, atColumn: 0)
         } else {
             print("Board couldn't be load")
         }

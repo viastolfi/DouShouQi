@@ -25,16 +25,16 @@ public struct Board {
     }
     
     public func countPieces(of owner: Owner) -> Int {
-        let flat_array = grid.flatMap{ $0 }
-        return flat_array.filter({ $0.piece?.owner == owner }).count
+        grid.flatMap{ $0 }
+            .filter({ $0.piece?.owner == owner})
+            .count
     }
     
     public func countPieces() -> (Int, Int) {
-        let flat_array = grid.flatMap{ $0 }
-        return (flat_array.filter({ $0.piece?.owner == .player1 }).count, flat_array.filter({ $0.piece?.owner == .player2 }).count)
+        (countPieces(of: .player1), countPieces(of: .player2))
     }
     
-    public func insert(piece: Piece, atRow row: Int, atColumn column: Int) -> BoardResult{
+    public mutating func insert(piece: Piece, atRow row: Int, atColumn column: Int) -> BoardResult{
         // .unknown if nothing works ?
         guard row <= nbRows || column <= nbColumns else {
             return .failed(reason: .outOfBounds)
