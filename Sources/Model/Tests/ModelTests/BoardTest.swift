@@ -127,7 +127,15 @@ final class BoardTest: XCTestCase {
         XCTAssertEqual(result, .ok)
         result = self.board.remove(atRow: 0, atColumn: 0)
         XCTAssertEqual(result, .failed(reason: .cellEmpty))
-
+    }
+    
+    func testInsertPieces() throws {
+        var result = self.board.insert(piece: Piece(withOwner: .player1, andAnimal: .cat), atRow: 20, atColumn: 20)
+        XCTAssertEqual(result, .failed(reason: .outOfBounds))
+        result = self.board.insert(piece: Piece(withOwner: .player1, andAnimal: .cat), atRow: 0, atColumn: 1)
+        XCTAssertEqual(result, .ok)
+        result = self.board.insert(piece: Piece(withOwner: .player1, andAnimal: .cat), atRow: 0, atColumn: 1)
+        XCTAssertEqual(result, .failed(reason: .cellNotEmpty))
     }
 
     func testPerformanceExample() throws {

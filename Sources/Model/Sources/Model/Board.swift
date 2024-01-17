@@ -31,11 +31,10 @@ public struct Board {
     }
     
     public func countPieces() -> (Int, Int) {
-        (countPieces(of: .player1), countPieces(of: .player2))
+        (player1_count: countPieces(of: .player1),player2_count: countPieces(of: .player2))
     }
     
     public mutating func insert(piece: Piece, atRow row: Int, atColumn column: Int) -> BoardResult{
-        // .unknown if nothing works ?
         guard row <= nbRows || column <= nbColumns else {
             return .failed(reason: .outOfBounds)
         } 
