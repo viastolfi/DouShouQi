@@ -8,7 +8,7 @@
 import Foundation
 
 public struct Piece : CustomStringConvertible {
-    // Rewrite string convertible of the class
+    /// Change the way a Piece is display
     public var description: String {
         "[\(owner):\(animal)]"
     }
@@ -16,6 +16,10 @@ public struct Piece : CustomStringConvertible {
     public let owner: Owner
     public let animal: Animal
     
+    /// Initializer of the class
+    /// - Parameters:
+    ///   - owner: Owner of the piece
+    ///   - animal: Animal of the piece
     public init(withOwner owner: Owner, andAnimal animal: Animal) {
         self.owner = owner
         self.animal = animal

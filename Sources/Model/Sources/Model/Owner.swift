@@ -8,11 +8,11 @@
 import Foundation
 
 public enum Owner : CustomStringConvertible {
-    // Rewrite string convertible of the class
+    /// Change the way a Owner is display
     public var description: String {
         switch self {
         case .noOne:
-            return " "
+            return "x"
         case .player1:
             return "1"
         case .player2:
