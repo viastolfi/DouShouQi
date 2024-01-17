@@ -9,7 +9,6 @@ import XCTest
 @testable import Model
 
 final class BoardTest: XCTestCase {
-
     private var board: Board!
     override func setUpWithError() throws {
         self.board = Board(withGrid: [
@@ -114,6 +113,15 @@ final class BoardTest: XCTestCase {
         XCTAssert(self.board.nbRows == 10)
     }
     
+    func testNilInitializer() throws {
+        var result = Board(withGrid: [])
+        XCTAssertNil(result)
+        result = Board(withGrid: [[]])
+        XCTAssertNil(result)
+        result = Board(withGrid: [[Cell(ofType: .den), Cell(ofType: .jungle)], [Cell(ofType: .trap)]])
+        XCTAssertNil(result)
+    }
+    
     func testCountPieces() throws {
         XCTAssert(self.board.countPieces(of: .player1) == 8)
         XCTAssert(self.board.countPieces(of: .player2) == 8)
@@ -138,10 +146,9 @@ final class BoardTest: XCTestCase {
         XCTAssertEqual(result, .failed(reason: .cellNotEmpty))
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
+    func testPerformanceInsertPiece() throws {
         self.measure {
-            // Put the code you want to measure the time of here.
+            _ = self.board.insert(piece: Piece(withOwner: .player1, andAnimal: .cat), atRow: 0, atColumn: 1)
         }
     }
 

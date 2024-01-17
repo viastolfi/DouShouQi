@@ -18,7 +18,7 @@ final class PieceTest: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testCustomStringConvertibleDescription() throws {
         var piece_description = Piece(withOwner: .player1, andAnimal: .dog).description
         XCTAssertEqual(piece_description, "[1:dog]")
         
@@ -28,12 +28,10 @@ final class PieceTest: XCTestCase {
         piece_description = Piece(withOwner: .noOne, andAnimal: .wolf).description
         XCTAssertEqual(piece_description, "[x:wolf]")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testInitOwner() throws {
+        let piece = Piece(withOwner: .player1, andAnimal: .dog)
+        XCTAssertEqual(piece.owner, Owner.player1)
+        XCTAssertEqual(piece.animal, Animal.dog)
     }
-
 }
