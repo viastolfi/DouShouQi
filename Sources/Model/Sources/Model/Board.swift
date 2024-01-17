@@ -12,8 +12,12 @@ public struct Board {
     public let nbColumns: Int
     public private(set) var grid: [[Cell]]
     
-    // Initializer of the class that can return nil
+    /// Initializer of the class that can return nil
+    /// - Parameter grid: The grid of our board
     public init?(withGrid grid: [[Cell]]) {
+        if grid.isEmpty || grid[0].isEmpty {
+            return nil
+        }
         // Check if every column of the Grid have the same size, else return nil
         guard grid.allSatisfy({$0.count == grid[0].count }) else {
             return nil
@@ -24,16 +28,25 @@ public struct Board {
         self.grid = grid
     }
     
+    /// countPieces
+    /// - Parameter owner: The owner we want to know the number of pieces he own
+    /// - Returns: Number of pieces the owner own
     public func countPieces(of owner: Owner) -> Int {
-        grid.flatMap{ $0 }
-            .filter({ $0.piece?.owner == owner})
-            .count
+        grid.countOccurenceInCell(condition: {return $0.piece?.owner == owner})
     }
     
-    public func countPieces() -> (Int, Int) {
-        (player1_count: countPieces(of: .player1),player2_count: countPieces(of: .player2))
+    /// countPieces
+    /// - Returns: Tuple containing the number of pieces of every player
+    public func countPieces() -> (player1_count: Int,player2_count: Int) {
+        (countPieces(of: .player1), countPieces(of: .player2))
     }
     
+    /// insert
+    /// - Parameters:
+    ///   - piece: The piece we want to insert
+    ///   - row: Row of the Board
+    ///   - column: Column of the Board
+    /// - Returns: Result of the insert
     public mutating func insert(piece: Piece, atRow row: Int, atColumn column: Int) -> BoardResult{
         guard row <= nbRows || column <= nbColumns else {
             return .failed(reason: .outOfBounds)
@@ -44,11 +57,16 @@ public struct Board {
             }
         }
         
-        self.grid[row][column] = Cell(ofType: grid[row][column].cellType, ownedBy: grid[row][column].initialOwner, withPiece: piece)
+        self.grid[row][column].piece = piece
             
         return .ok
     }
     
+    /// remove
+    /// - Parameters:
+    ///   - row: Row of the Board
+    ///   - column: Column of the Board
+    /// - Returns: Result of the remove
     public mutating func remove(atRow row: Int, atColumn column: Int) -> BoardResult {
         if row > nbRows || column > nbColumns {
             return .failed(reason: .outOfBounds)
@@ -57,8 +75,8 @@ public struct Board {
             return .failed(reason: .cellEmpty)
         }
         
-        self.grid[row][column] = Cell(ofType: grid[row][column].cellType, ownedBy: grid[row][column].initialOwner)
-        
+        self.grid[row][column].piece = nil
+
         return .ok
     }
 }
