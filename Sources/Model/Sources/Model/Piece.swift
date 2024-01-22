@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Piece : CustomStringConvertible {
+public struct Piece : CustomStringConvertible, Equatable, Hashable {
     /// Change the way a Piece is display
     public var description: String {
         "[\(owner):\(animal)]"

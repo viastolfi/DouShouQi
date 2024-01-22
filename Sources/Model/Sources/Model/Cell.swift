@@ -7,7 +7,15 @@
 
 import Foundation
 
-public struct Cell : CustomStringConvertible {
+public struct Cell : CustomStringConvertible, Equatable, Hashable {
+    public static func == (lhs: Cell, rhs: Cell) -> Bool {
+        lhs.piece == rhs.piece && lhs.cellType == rhs.cellType
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(piece)
+    }
+    
     /// Change the way a Cell is display
     public var description: String {
         "\(piece?.description ?? "ø") on .\(cellType), \(initialOwner)"

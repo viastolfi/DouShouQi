@@ -7,10 +7,18 @@
 
 import Foundation
 
-public struct Board {
+public struct Board : Hashable{
     public let nbRows: Int
     public let nbColumns: Int
     public private(set) var grid: [[Cell]]
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(grid)
+    }
+    
+    public static func == (lhs: Board, rhs: Board) -> Bool {
+        lhs.grid == rhs.grid
+    }
     
     /// Initializer of the class that can return nil
     /// - Parameter grid: The grid of our board

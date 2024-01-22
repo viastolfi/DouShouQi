@@ -14,4 +14,9 @@ extension Array where Element == Array<Cell> {
     func countOccurenceInCell(condition: (Cell) -> Bool) -> Int {
         self.flatMap{$0}.filter{condition($0)}.count
     }
+    
+    func checkIfPieceAsOwner() -> (result: Bool, wrongPieces: Piece?) {
+        let piecesWithNoOwner = self.flatMap{$0}.filter{$0.piece!.owner == .noOne};
+        return (result: piecesWithNoOwner.count == 0, wrongPieces: piecesWithNoOwner.first?.piece)
+    }
 }
