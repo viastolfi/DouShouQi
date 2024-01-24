@@ -9,7 +9,6 @@ import XCTest
 @testable import Model
 
 final class VerySimpleRulesTest: XCTestCase {
-    
     private var rules: VerySimpleRules!
     private var board: Board!
     override func setUpWithError() throws {
@@ -72,6 +71,33 @@ final class VerySimpleRulesTest: XCTestCase {
         
         XCTAssertNoThrow(try VerySimpleRules.checkBoard(self.board))
     }
+    
+    func testMoveElephantAndRat() throws {
+        let board = Board(withGrid: [
+            [
+                Cell(ofType: .jungle, withPiece: Piece(withOwner: .player1, andAnimal: .elephant)),
+                Cell(ofType: .jungle, withPiece: Piece(withOwner: .player2, andAnimal: .rat)),
+                Cell(ofType: .jungle),
+            ],
+            [
+                Cell(ofType: .jungle, withPiece: Piece(withOwner: .player2, andAnimal: .cat)),
+                Cell(ofType: .jungle, withPiece: Piece(withOwner: .player1, andAnimal: .cat)),
+                Cell(ofType: .jungle),
+            ],
+            [
+                Cell(ofType: .jungle),
+                Cell(ofType: .jungle),
+                Cell(ofType: .jungle),
+            ],
+        ])!
+        
+        var move = Move(owner: .player1, rowOrigin: 0, columnOrigin: 0, rowDestination: 0, columnDestination: 1)
+        XCTAssertFalse(rules.isMoveValid(board, move))
+        move = Move(owner: .player2, rowOrigin: 0, columnOrigin: 1, rowDestination: 0, columnDestination: 0)
+        XCTAssertTrue(rules.isMoveValid(board, move))
+        move = Move(owner: .player2, rowOrigin: 1, columnOrigin: 0, rowDestination: 1, columnDestination: 1)
+        XCTAssertTrue(rules.isMoveValid(board, move))
+    }
 
     func testCreateBoard() throws {
         let board = Board(withGrid: [
@@ -119,6 +145,9 @@ final class VerySimpleRulesTest: XCTestCase {
         var move = Move(owner: .player1, rowOrigin: 0, columnOrigin: 1, rowDestination: 1, columnDestination: 1)
         XCTAssertTrue(rules.isMoveValid(board, move))
         move = Move(owner: .noOne, rowOrigin: 0, columnOrigin: 1, rowDestination: 1, columnDestination: 1)
+        XCTAssertFalse(rules.isMoveValid(board, move))
+        
+        move = Move(owner: .player1, rowOrigin: 0, columnOrigin: 1, rowDestination: 0, columnDestination: 2)
         XCTAssertFalse(rules.isMoveValid(board, move))
     }
     
