@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Move {
+public struct Move : Equatable, Hashable {    
     public var owner: Owner
     public var rowOrigin: Int
     public var columnOrigin: Int

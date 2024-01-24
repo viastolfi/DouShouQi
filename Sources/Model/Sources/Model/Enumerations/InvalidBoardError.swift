@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum InvalidBoardError : Error {
+public enum InvalidBoardError : Error, Equatable {
     case badDimensions(row: Int,column: Int)
     case badCellType(cellType: CellType,row: Int,column: Int)
     case multipleOccurenceOfSamePiece(piece: Piece)
