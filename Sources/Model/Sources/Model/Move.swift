@@ -7,7 +7,11 @@
 
 import Foundation
 
-public struct Move : Equatable, Hashable {    
+public struct Move : Equatable, Hashable, CustomStringConvertible{
+    public var description: String {
+        "\(owner) move from (\(rowOrigin), \(columnOrigin)) to (\(rowDestination), \(columnDestination)"
+    }
+    
     public var owner: Owner
     public var rowOrigin: Int
     public var columnOrigin: Int

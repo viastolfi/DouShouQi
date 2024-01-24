@@ -109,7 +109,7 @@ public struct VerySimpleRules: Rules{
     }
     
     /// Get the next player who plays
-    /// - Returns: A player betwenn the different owner enum
+    /// - Returns: A player between the different owner enum
     public func getNextPlayer() -> Owner {
         (historic.last?.owner == .player1 ? .player2 : .player1) ?? .noOne
     }
@@ -201,6 +201,20 @@ public struct VerySimpleRules: Rules{
             return false
         }
         
+        guard move.owner != board.grid[move.rowDestination][move.columnDestination].piece?.owner else {
+            return false
+        }
+        
+        guard move.owner != board.grid[move.rowDestination][move.columnDestination].initialOwner else {
+            return false
+        }
+        
+        if let destPiece = board.grid[move.rowDestination][move.columnDestination].piece {
+            guard destPiece.animal <= board.grid[move.rowOrigin][move.columnOrigin].piece!.animal else {
+                return false
+            }
+        }
+        
         return true
     }
     
@@ -219,20 +233,15 @@ public struct VerySimpleRules: Rules{
             return (true, .winner(winner: denCells.first!.piece!.owner, reason: .denReached))
         }
         
-        guard board.countPieces(of: .player1) != 0 else {
-            return (true, .winner(winner: .player2, reason: .noMorePieces))
-        }
-        guard board.countPieces(of: .player2) != 0 else {
-            return (true, .winner(winner: .player1, reason: .noMorePieces))
+        let nextPlayer = getNextPlayer()
+        guard board.countPieces(of: nextPlayer) != 0 else {
+            return (true, .winner(winner: Owner.getOtherPlayer(nextPlayer), reason: .noMorePieces))
         }
         
-        guard getMoves(board, .player1).count != 0 else {
-            return (true, .winner(winner: .player2, reason: .noMovesLeft))
+        guard getMoves(board, nextPlayer).count != 0 else {
+            return (true, .winner(winner: Owner.getOtherPlayer(nextPlayer), reason: .noMovesLeft))
         }
-        guard getMoves(board, .player2).count != 0 else {
-            return (true, .winner(winner: .player1, reason: .noMovesLeft))
-        }
-        
+       
         return (false, .notFinished)
     }
     

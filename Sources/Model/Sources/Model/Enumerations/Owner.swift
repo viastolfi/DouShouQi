@@ -23,4 +23,9 @@ public enum Owner : CustomStringConvertible, Equatable {
     case noOne
     case player1
     case player2
+    
+    public static func getOtherPlayer(_ player: Owner) -> Owner{
+        if player == .player1 { return .player2}
+        return .player1
+    }
 }
