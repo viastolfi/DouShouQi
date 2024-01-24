@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ArrayExtension.swift
 //  
 //
 //  Created by Vincent Astolfi on 17/01/2024.
@@ -13,10 +13,16 @@ extension Array where Element == Array<Cell> {
     /// - Returns: Value return after the test
     func countOccurenceInCell(condition: (Cell) -> Bool) -> Int {
         self.flatMap{$0}.filter{condition($0)}.count
-    }
-    
-    func checkIfPieceAsOwner() -> (result: Bool, wrongPieces: Piece?) {
-        let piecesWithNoOwner = self.flatMap{$0}.filter{$0.piece!.owner == .noOne};
-        return (result: piecesWithNoOwner.count == 0, wrongPieces: piecesWithNoOwner.first?.piece)
+    }    
+}
+
+extension Array where Element == (CellType, (Int, Int)) {
+    func getCellTypeWithCoordinates(_ c: (Int, Int)) -> CellType? {
+        for t in self {
+            if t.1 == c {
+                return t.0
+            }
+        }
+        return nil
     }
 }

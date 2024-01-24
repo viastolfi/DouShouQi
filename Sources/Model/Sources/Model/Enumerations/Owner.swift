@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Owner.swift
 //  
 //
 //  Created by Vincent Astolfi on 08/01/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Owner : CustomStringConvertible {
+public enum Owner : CustomStringConvertible, Equatable {
     /// Change the way a Owner is display
     public var description: String {
         switch self {
