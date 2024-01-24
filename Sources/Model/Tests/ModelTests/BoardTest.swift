@@ -10,6 +10,7 @@ import XCTest
 
 final class BoardTest: XCTestCase {
     private var board: Board!
+    
     override func setUpWithError() throws {
         self.board = Board(withGrid: [
             [
