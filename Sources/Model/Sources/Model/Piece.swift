@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Piece.swift
 //  
 //
 //  Created by Vincent Astolfi on 08/01/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Piece : CustomStringConvertible {
+public struct Piece : CustomStringConvertible, Equatable, Hashable {
     /// Change the way a Piece is display
     public var description: String {
         "[\(owner):\(animal)]"

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Board.swift
 //  
 //
 //  Created by Vincent Astolfi on 08/01/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Board {
+public struct Board : Hashable{
     public let nbRows: Int
     public let nbColumns: Int
     public private(set) var grid: [[Cell]]
@@ -32,7 +32,7 @@ public struct Board {
     /// - Parameter owner: The owner we want to know the number of pieces he own
     /// - Returns: Number of pieces the owner own
     public func countPieces(of owner: Owner) -> Int {
-        grid.countOccurenceInCell(condition: {return $0.piece?.owner == owner})
+        grid.countOccurenceInCell{$0.piece?.owner == owner}
     }
     
     /// countPieces

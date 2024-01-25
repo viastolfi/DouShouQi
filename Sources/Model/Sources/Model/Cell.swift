@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Cell.swift
 //  
 //
 //  Created by Vincent Astolfi on 08/01/2024.
@@ -7,16 +7,16 @@
 
 import Foundation
 
-public struct Cell : CustomStringConvertible {
-    /// Change the way a Cell is display
-    public var description: String {
-        "\(piece?.description ?? "ø") on .\(cellType), \(initialOwner)"
-    }
-    
+public struct Cell : CustomStringConvertible, Equatable, Hashable {
     public let cellType: CellType
     public let initialOwner: Owner
     public var piece: Piece?
     
+    /// Change the way a Cell is display
+    public var description: String {
+        "\(piece?.description ?? "ø") on .\(cellType), \(initialOwner)"
+    }
+
     /// Initializer of the class
     /// - Parameters:
     ///   - type: Type of the cell

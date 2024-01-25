@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  CellTypeExtension.swift
 //
 //
 //  Created by Vincent Astolfi on 08/01/2024.
