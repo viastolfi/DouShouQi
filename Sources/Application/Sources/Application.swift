@@ -11,6 +11,7 @@ import ModelExtensions
 @main
 struct Application: ParsableCommand {
     mutating func run() throws {
+        /*
         // Create a board as in the example
         var board = Board(withGrid: [
             [
@@ -135,9 +136,56 @@ struct Application: ParsableCommand {
             print("Result of inserting piece at (11,20) : \(result)\n")
             result = board!.insert(piece: Piece(withOwner: .player1, andAnimal: .elephant), atRow: 9, atColumn: 0)
             print("Result of inserting piece at (9,0) : \(result)\n")
+            
         } else {
             print("Board couldn't be load")
         }
+        */
         
+        let rules = VerySimpleRules()
+        
+        guard let board = VerySimpleRules.createBoard() else {
+            return
+        }
+        var result = false
+        var player1 = RandomPlayer(withId: .player1, andName: "Lucas")
+        var player2 = HumanPlayer(withId: .player2, andName: "Vincent", andInputMethod: {
+            print("*******************")
+            print("player \($0.id.symbol) \($0.id.description) - \($0.name), it's your turn")
+            print("*******************")
+            
+            print("\($0.name) enter origin row")
+            guard let originRow = readLine() else {
+                return nil
+            }
+            
+            print("\($0.name) enter origin column")
+            guard let originColumn = readLine() else {
+                return nil
+            }
+            
+            print("\($0.name) enter destination row")
+            guard let destinationRow = readLine() else {
+                return nil
+            }
+            
+            print("\($0.name) enter destination column")
+            guard let destinationColumn = readLine() else {
+                return nil
+            }
+            
+            print("*******************")
+            print("player \($0.id.symbol) \($0.id.description) - \($0.name), has chosen : player\($0.id.description): [\(originRow),\(originColumn)] -> [\(destinationRow),\(destinationColumn)]")
+            print("*******************")
+            
+            //return nil
+            return Move(owner: $0.id, rowOrigin: Int(originRow)!, columnOrigin: Int(originColumn)!, rowDestination: Int(destinationRow)!, columnDestination: Int(destinationColumn)!)
+        })
+        var nextPlayer = Owner.player1
+        while(!result) {
+            print(board.classique)
+            player2?.chooseMove(in: board, with: rules)
+            result = true
+        }
     }
 }
