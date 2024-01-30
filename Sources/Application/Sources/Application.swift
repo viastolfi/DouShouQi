@@ -188,6 +188,8 @@ struct Application: ParsableCommand {
         print("******************")
         print("CONGRATULATION \(result.1)")
         print("******************")
+        print(board.classique)
+
     }
     
     private func getInputWithKeyboard(hu: HumanPlayer) -> Move?{
