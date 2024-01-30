@@ -161,10 +161,13 @@ struct Application: ParsableCommand {
             print("*******************")
             
             var move = nextPlayer.chooseMove(in: board, with: rules)!
+            printPlayedMove(nextPlayer, move)
+            
             while(!rules.isMoveValid(board, move)) {
                 print("😵 Not possible move")
                 print("player \(nextPlayer.id.symbol) \(nextPlayer.id.description) - \(nextPlayer.name), Chose another move")
                 move = nextPlayer.chooseMove(in: board, with: rules)!
+                printPlayedMove(nextPlayer, move)
             }
             
             guard let movingPiece = board.grid[move.rowOrigin][move.columnOrigin].piece else {
@@ -210,10 +213,14 @@ struct Application: ParsableCommand {
         
         guard originRow.isNumber || originColumn.isNumber || destinationRow.isNumber || destinationColumn.isNumber else { return nil }
         
-        print("*******************")
-        print("player \(hu.id.symbol) \(hu.id.description) - \(hu.name), has chosen : player\(hu.id.description): [\(originRow),\(originColumn)] -> [\(destinationRow),\(destinationColumn)]")
-        print("*******************")
+        
         
         return Move(owner: hu.id, rowOrigin: Int(originRow)!, columnOrigin: Int(originColumn)!, rowDestination: Int(destinationRow)!, columnDestination: Int(destinationColumn)!)
+    }
+    
+    private func printPlayedMove(_ nextPlayer: Player, _ move: Move) {
+        print("*******************")
+        print("player \(nextPlayer.id.symbol) \(nextPlayer.id.description) - \(nextPlayer.name), has chosen : player\(nextPlayer.id.description): [\(move.rowOrigin),\(move.columnOrigin)] -> [\(move.rowDestination),\(move.columnDestination)]")
+        print("*******************")
     }
 }
