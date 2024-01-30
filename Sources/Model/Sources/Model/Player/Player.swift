@@ -7,7 +7,11 @@
 
 import Foundation
 
-public class Player {
+public class Player: Equatable {
+    public static func == (lhs: Player, rhs: Player) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name
+    }
+    
     public let id: Owner;
     public let name: String;
     
@@ -20,7 +24,7 @@ public class Player {
         self.name = name
     }
     
-    func chooseMove(in board: Board, with rules: Rules) -> Move? {
+    public func chooseMove(in board: Board, with rules: Rules) -> Move? {
         fatalError("chooseMove(from:) has not been implemented")
     }
 }

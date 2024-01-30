@@ -227,7 +227,10 @@ public struct VerySimpleRules: Rules{
     public func isGameOver(onBoard board: Board, afterMoveRow row: Int, andColumn column: Int) -> (Bool, Result) {
         let denCells = board.grid.flatMap{$0}
                                  .filter{$0.cellType == .den}
-                                 .filter{$0.piece?.owner != $0.initialOwner}
+                                 .filter{
+                                     if let piece = $0.piece { return $0.initialOwner != piece.owner }
+                                     else { return false }
+                                 }
         
         guard denCells.count == 0 else {
             return (true, .winner(winner: denCells.first!.piece!.owner, reason: .denReached))

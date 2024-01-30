@@ -142,50 +142,78 @@ struct Application: ParsableCommand {
         }
         */
         
-        let rules = VerySimpleRules()
+        var rules = VerySimpleRules()
         
-        guard let board = VerySimpleRules.createBoard() else {
+        guard var board = VerySimpleRules.createBoard() else {
             return
         }
-        var result = false
-        var player1 = RandomPlayer(withId: .player1, andName: "Lucas")
-        var player2 = HumanPlayer(withId: .player2, andName: "Vincent", andInputMethod: {
-            print("*******************")
-            print("player \($0.id.symbol) \($0.id.description) - \($0.name), it's your turn")
-            print("*******************")
-            
-            print("\($0.name) enter origin row")
-            guard let originRow = readLine() else {
-                return nil
-            }
-            
-            print("\($0.name) enter origin column")
-            guard let originColumn = readLine() else {
-                return nil
-            }
-            
-            print("\($0.name) enter destination row")
-            guard let destinationRow = readLine() else {
-                return nil
-            }
-            
-            print("\($0.name) enter destination column")
-            guard let destinationColumn = readLine() else {
-                return nil
-            }
-            
-            print("*******************")
-            print("player \($0.id.symbol) \($0.id.description) - \($0.name), has chosen : player\($0.id.description): [\(originRow),\(originColumn)] -> [\(destinationRow),\(destinationColumn)]")
-            print("*******************")
-            
-            //return nil
-            return Move(owner: $0.id, rowOrigin: Int(originRow)!, columnOrigin: Int(originColumn)!, rowDestination: Int(destinationRow)!, columnDestination: Int(destinationColumn)!)
-        })
-        var nextPlayer = Owner.player1
-        while(!result) {
+        var result: (Bool , Result) = (false, .notFinished)
+        let player1 = RandomPlayer(withId: .player1, andName: "Lucas")!
+        let player2 = RandomPlayer(withId: .player2, andName: "Vincent")!
+        
+        var nextPlayer: Player = player2
+        while(!result.0) {
             print(board.classique)
-            player2?.chooseMove(in: board, with: rules)
-            result = true
+            print("⏳ Game is not over yet !")
+            
+            print("*******************")
+            print("player \(nextPlayer.id.symbol) \(nextPlayer.id.description) - \(nextPlayer.name), it's your turn")
+            print("*******************")
+            
+            var move = nextPlayer.chooseMove(in: board, with: rules)!
+            while(!rules.isMoveValid(board, move)) {
+                print("😵 Not possible move")
+                print("player \(nextPlayer.id.symbol) \(nextPlayer.id.description) - \(nextPlayer.name), Chose another move")
+                move = nextPlayer.chooseMove(in: board, with: rules)!
+            }
+            
+            guard let movingPiece = board.grid[move.rowOrigin][move.columnOrigin].piece else {
+                return
+            }
+            
+            _ = board.remove(atRow: move.rowDestination, atColumn: move.columnDestination)
+            _ = board.insert(piece: movingPiece, atRow: move.rowDestination, atColumn: move.columnDestination)
+            _ = board.remove(atRow: move.rowOrigin , atColumn: move.columnOrigin)
+
+            rules.playedMove(move: move, originalBoard: board, afterMoveBoard: board)
+            
+            result = rules.isGameOver(onBoard: board, afterMoveRow: move.rowDestination, andColumn: move.columnDestination)
+            
+            nextPlayer = move.owner == Owner.player1 ? player2 : player1
         }
+        
+        print("******************")
+        print("CONGRATULATION \(result.1)")
+        print("******************")
+    }
+    
+    private func getInputWithKeyboard(hu: HumanPlayer) -> Move?{
+        print("\(hu.name) enter origin row")
+        guard let originRow = readLine() else {
+            return nil
+        }
+        
+        print("\(hu.name) enter origin column")
+        guard let originColumn = readLine() else {
+            return nil
+        }
+        
+        print("\(hu.name) enter destination row")
+        guard let destinationRow = readLine() else {
+            return nil
+        }
+        
+        print("\(hu.name) enter destination column")
+        guard let destinationColumn = readLine() else {
+            return nil
+        }
+        
+        guard originRow.isNumber || originColumn.isNumber || destinationRow.isNumber || destinationColumn.isNumber else { return nil }
+        
+        print("*******************")
+        print("player \(hu.id.symbol) \(hu.id.description) - \(hu.name), has chosen : player\(hu.id.description): [\(originRow),\(originColumn)] -> [\(destinationRow),\(destinationColumn)]")
+        print("*******************")
+        
+        return Move(owner: hu.id, rowOrigin: Int(originRow)!, columnOrigin: Int(originColumn)!, rowDestination: Int(destinationRow)!, columnDestination: Int(destinationColumn)!)
     }
 }
