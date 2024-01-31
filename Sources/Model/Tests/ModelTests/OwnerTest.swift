@@ -10,12 +10,9 @@ import XCTest
 
 final class OwnerTest: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testGetOtherPlayer() {
+        XCTAssertEqual(Owner.player1, Owner.getOtherPlayer(.player2))
+        XCTAssertEqual(Owner.player2, Owner.getOtherPlayer(.player1))
     }
 
     func testCustomStringConvertibleDescription() throws {

@@ -11,13 +11,10 @@ import XCTest
 final class VerySimpleRulesTest: XCTestCase {
     private var rules: VerySimpleRules!
     private var board: Board!
+    
     override func setUpWithError() throws {
         rules = VerySimpleRules()
         board = VerySimpleRules.createBoard()
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
     func testcheckBoard() throws {
@@ -245,15 +242,8 @@ final class VerySimpleRulesTest: XCTestCase {
             ],
         ])!
         
+        XCTAssertEqual(Owner.player1, rules.getNextPlayer())
         rules.playedMove(move: Move(owner: .player1, rowOrigin: 1, columnOrigin: 1, rowDestination: 0, columnDestination: 1), originalBoard: board, afterMoveBoard: board)
         XCTAssertEqual(Owner.player2, rules.getNextPlayer())
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

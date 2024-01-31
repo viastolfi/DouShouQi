@@ -111,7 +111,7 @@ public struct VerySimpleRules: Rules{
     /// Get the next player who plays
     /// - Returns: A player between the different owner enum
     public func getNextPlayer() -> Owner {
-        (historic.last?.owner == .player1 ? .player2 : .player1) ?? .noOne
+        historic.last?.owner == .player1 ? .player2 : .player1
     }
     
     /// Get all the possible moves for an owner

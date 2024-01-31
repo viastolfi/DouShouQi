@@ -39,6 +39,6 @@ public class Player: Equatable {
     ///   - rules: the rules we are using
     /// - Returns: The move that is chosen by the player, can be nil.
     public func chooseMove(in board: Board, with rules: Rules) -> Move? {
-        fatalError("chooseMove(from:) has not been implemented")
+        return nil
     }
 }

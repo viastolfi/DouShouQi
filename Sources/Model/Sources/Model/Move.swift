@@ -9,7 +9,7 @@ import Foundation
 
 public struct Move : CustomStringConvertible, Hashable{
     public var description: String {
-        "\(owner) move from (\(rowOrigin), \(columnOrigin)) to (\(rowDestination), \(columnDestination)"
+        "\(owner) move from (\(rowOrigin), \(columnOrigin)) to (\(rowDestination), \(columnDestination))"
     }
     
     public var owner: Owner
