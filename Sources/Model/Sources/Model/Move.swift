@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Move : Equatable, CustomStringConvertible{
+public struct Move : Equatable, CustomStringConvertible, Hashable{
     public var description: String {
         "\(owner) move from (\(rowOrigin), \(columnOrigin)) to (\(rowDestination), \(columnDestination)"
     }

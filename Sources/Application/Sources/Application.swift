@@ -149,7 +149,7 @@ struct Application: ParsableCommand {
         }
         var result: (Bool , Result) = (false, .notFinished)
         let player1 = RandomPlayer(withId: .player1, andName: "Lucas")!
-        let player2 = RandomPlayer(withId: .player2, andName: "Vincent")!
+        let player2 = HumanPlayer(withId: .player2, andName: "Vincent", andInputMethod: (getInputWithKeyboard))!
         
         var nextPlayer: Player = player2
         while(!result.0) {
@@ -214,8 +214,6 @@ struct Application: ParsableCommand {
         }
         
         guard originRow.isNumber || originColumn.isNumber || destinationRow.isNumber || destinationColumn.isNumber else { return nil }
-        
-        
         
         return Move(owner: hu.id, rowOrigin: Int(originRow)!, columnOrigin: Int(originColumn)!, rowDestination: Int(destinationRow)!, columnDestination: Int(destinationColumn)!)
     }
