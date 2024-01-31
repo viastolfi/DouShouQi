@@ -148,6 +148,8 @@ struct Application: ParsableCommand {
             return
         }
         var result: (Bool , Result) = (false, .notFinished)
+        
+        // Define the different player
         let player1 = RandomPlayer(withId: .player1, andName: "Lucas")!
         let player2 = HumanPlayer(withId: .player2, andName: "Vincent", andInputMethod: (getInputWithKeyboard))!
         
