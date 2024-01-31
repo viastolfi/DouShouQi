@@ -1,14 +1,20 @@
 # DuoShouQi_VincentAstolfi
 
+## Summary 
+
+- Run application and test
+- Get code coverage
+- Play the game
+
 Poject made during the Swift module during my 3rd year at the IUT informatique d'Aubière.
 
 **The subject of this project and the rules of the DouShouQi games can be find here**
 
 https://codefirst.iut.uca.fr/git/mchSamples_Apple/DouShouQi
 
-## Using Xcode
+### Using Xcode
 
-### Running Application 
+#### Running Application 
 
 - Clone the repository using : 
 ```shell
@@ -33,7 +39,7 @@ If you choose `Application` and then run it you will see the Board that is creat
 
 You can also choose the Tests package to run them. I've create some test that don't cover all the code but a part of them.
 
-### Running Test
+#### Running Test
 
 If you select `Model` as your starting project and then run it you will run all the UnitTest of the Model package
 
@@ -49,9 +55,9 @@ You can also get more detail on the code coverage by clicking on the `Coverage`
 
 <img src="images/code_coverage_detail.png" alt="Code coverage detail" height="auto" width="auto">
 
-## Using the terminal
+### Using the terminal
 
-### Running Test
+#### Running Test
 
 - Clone the repository using : 
 ```shell
@@ -80,3 +86,41 @@ The actual possible test package are :
 
     ModelExtensionsTests,
     ModelTests
+
+### How to play the game
+
+You can play the game with very simple rules and two types of player
+
+Go to your `Application.swift` file on your `Application` package.
+
+#### Create rules and board
+
+<img src="images/rules_board.png" alt="Code coverage detail" height="auto" width="auto">
+
+Change those lines to change the rules you want to play with and the associate board.
+
+At the moment, the possible rules set are :
+- VerySimpleRules
+
+#### Create the players 
+
+<img src="images/players.png" alt="Code coverage detail" height="auto" width="auto">
+
+Change those lines to change the players you want to play with.
+
+At the moment, the possible players are :
+- HumanPlayer
+- RandomPlayer
+
+##### RandomPlayer
+
+Random player move by choosing a random move in all its possible ones
+
+##### HumanPlayer
+
+Human player can have different ways to move. To choose the way the player will move, you can use one of the available input type function in the `InputsType` folder in your `application` package. Just change the `andInputMethod:` parameter with the name of the function you want to use.
+
+At the moment, the different possible inputs types are :
+- getInputWithKeyboard => player enter the coordonate for the origin and the destination of the move
+
+Just enjoy the game then
