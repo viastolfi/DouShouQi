@@ -23,7 +23,7 @@ final class VerySimpleRulesTest: XCTestCase {
             XCTAssertEqual(error as! InvalidBoardError, InvalidBoardError.badDimensions(row: 2, column: 2))
         }
         
-        let piece = Piece(withOwner: .noOne, andAnimal: .cat)
+        var piece = Piece(withOwner: .noOne, andAnimal: .cat)
         board = Board(withGrid: [
             [
                 Cell(ofType: .jungle),
@@ -66,6 +66,18 @@ final class VerySimpleRulesTest: XCTestCase {
             XCTAssertEqual(error as! InvalidBoardError, InvalidBoardError.pieceWithNoOwner(piece: piece))
         }
         
+        piece = Piece(withOwner: .player1, andAnimal: .rat)
+        _ = board.remove(atRow: 0, atColumn: 1)
+        _ = board.insert(piece: Piece(withOwner: .player1, andAnimal: .rat), atRow: 0, atColumn: 1)
+        XCTAssertThrowsError(try VerySimpleRules.checkBoard(board)) { error in
+            XCTAssertEqual(error as! InvalidBoardError, InvalidBoardError.multipleOccurenceOfSamePiece(piece: piece))
+        }
+        
+        _ = board.remove(atRow: 0, atColumn: 1)
+        _ = board.insert(piece: piece, atRow: 0, atColumn: 2)
+        XCTAssertThrowsError(try VerySimpleRules.checkBoard(board)) { error in
+            XCTAssertEqual(error as! InvalidBoardError, InvalidBoardError.pieceNotAllowedOnThisCell(piece: piece, cell: board.grid[0][2]))
+        }
         XCTAssertNoThrow(try VerySimpleRules.checkBoard(self.board))
     }
     
