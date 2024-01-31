@@ -95,7 +95,13 @@ Go to your `Application.swift` file on your `Application` package.
 
 #### Create rules and board
 
-<img src="images/rules_board.png" alt="Code coverage detail" height="auto" width="auto">
+```swift
+// create the rules and the board
+var rules = VerySimpleRules()
+guard var board = VerySimpleRules.createBoard() else {
+    return
+}
+```
 
 Change those lines to change the rules you want to play with and the associate board.
 
@@ -104,7 +110,11 @@ At the moment, the possible rules set are :
 
 #### Create the players 
 
-<img src="images/players.png" alt="Code coverage detail" height="auto" width="auto">
+```swift
+// Define the different player
+let player1 = RandomPlayer(withId: .player1, andName: "Lucas")!
+let player2 = HumanPlayer(withId: .player2, andName: "Vincent", andInputMethod: (getInputWithKeyboard))!
+```
 
 Change those lines to change the players you want to play with.
 
