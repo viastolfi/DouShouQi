@@ -20,7 +20,7 @@ struct Application: ParsableCommand {
         
         // Define the different player
         let player1 = RandomPlayer(withId: .player1, andName: "Lucas")!
-        let player2 = HumanPlayer(withId: .player2, andName: "Vincent", andInputMethod: (getInputWithKeyboard))!
+        let player2 = HumanPlayer(withId: .player2, andName: "Vincent", andInputMethod: (KeyboardInputs.getInputWithKeyboard))!
         
 
         var result: (Bool , Result) = (false, .notFinished)
@@ -36,9 +36,13 @@ struct Application: ParsableCommand {
             var move = nextPlayer.chooseMove(in: board, with: rules)!
             printPlayedMove(nextPlayer, move)
             
+            // Used in case the selected move don't exist
+            // Only possible if the player is a HumanPlayer
             while(!rules.isMoveValid(board, move)) {
                 print("😵 Not possible move")
+                print("*******************")
                 print("player \(nextPlayer.id.symbol) \(nextPlayer.id.description) - \(nextPlayer.name), Chose another move")
+                print("*******************")
                 move = nextPlayer.chooseMove(in: board, with: rules)!
                 printPlayedMove(nextPlayer, move)
             }
@@ -65,31 +69,7 @@ struct Application: ParsableCommand {
 
     }
     
-    private func getInputWithKeyboard(hu: HumanPlayer) -> Move?{
-        print("\(hu.name) enter origin row")
-        guard let originRow = readLine() else {
-            return nil
-        }
-        
-        print("\(hu.name) enter origin column")
-        guard let originColumn = readLine() else {
-            return nil
-        }
-        
-        print("\(hu.name) enter destination row")
-        guard let destinationRow = readLine() else {
-            return nil
-        }
-        
-        print("\(hu.name) enter destination column")
-        guard let destinationColumn = readLine() else {
-            return nil
-        }
-        
-        guard originRow.isNumber || originColumn.isNumber || destinationRow.isNumber || destinationColumn.isNumber else { return nil }
-        
-        return Move(owner: hu.id, rowOrigin: Int(originRow)!, columnOrigin: Int(originColumn)!, rowDestination: Int(destinationRow)!, columnDestination: Int(destinationColumn)!)
-    }
+    
     
     private func printPlayedMove(_ nextPlayer: Player, _ move: Move) {
         print("*******************")
