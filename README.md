@@ -5,6 +5,7 @@
 - Run application and test
 - Get code coverage
 - Play the game
+- Game basic rules
 
 Poject made during the Swift module during my 3rd year at the IUT informatique d'Aubière.
 
@@ -133,4 +134,17 @@ Human player can have different ways to move. To choose the way the player will 
 At the moment, the different possible inputs types are :
 - getInputWithKeyboard => player enter the coordonate for the origin and the destination of the move
 
-Just enjoy the game then
+#### Game basic rules
+
+The game basic rules are the same whatever the rules you choose to play in.
+
+- To win you can : 
+     - Reach the opposite player den
+     - Eat all the opposite player pieces
+     - Force the opposite player to have no move left
+
+- Game loop :
+     - The player move
+     - The game check if the move is winning
+     - If it is, we left the game loop and display the winner
+     - Else, we change the player to the other one and repeat this loop
