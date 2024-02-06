@@ -8,7 +8,7 @@ import ArgumentParser
 import Model
 import ModelExtensions
 
-@main
+//@main
 struct Application: ParsableCommand {
     mutating func run() throws {
         
