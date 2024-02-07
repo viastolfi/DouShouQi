@@ -12,8 +12,12 @@ public enum WinningReason: CustomStringConvertible {
         switch(self) {
         case .denReached:
             return "the opponent's den has been reached."
-        default:
-            return "J'ai pas fais ouais"
+        case .noMorePieces:
+            return "the opponent's has no more pieces left."
+        case .noMovesLeft:
+            return "the opponent's has no more moves left."
+        case .tooManyOccurences:
+            return "to many occurences"
         }
     }
     

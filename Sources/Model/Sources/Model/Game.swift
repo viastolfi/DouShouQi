@@ -13,11 +13,12 @@ public struct Game {
     var player1: Player
     var player2: Player
     
-    private var startGameListeners: [(Board) -> Void] = []
-    private var notifyPlayerTurnListeners: [(Player, Board) -> Void] = []
+    private var startGameListeners: [() -> Void] = []
+    private var notifyPlayerTurnListeners: [(Player) -> Void] = []
     private var playedMoveListeners: [(Player, Move) -> Void] = []
-    private var showWinnerListeners: [(Board,Result) -> Void] = []
-    private var notPossibleMoveListeners: [(Player, Move) -> Void] = []
+    private var showWinnerListeners: [(Result) -> Void] = []
+    private var notPossibleMoveListeners: [(Player, Move?) -> Void] = []
+    private var boardChangedListeners: [(Board) -> Void] = []
     
     public init(withRules rules: Rules,andPlayer1 player1: Player,andPlayer2 player2: Player) {
         self.rules = rules
@@ -26,11 +27,11 @@ public struct Game {
         self.player2 = player2
     }
     
-    public mutating func addStartGameListener(listener: @escaping (Board) -> Void) {
+    public mutating func addStartGameListener(listener: @escaping () -> Void) {
         startGameListeners.append(listener)
     }
     
-    public mutating func addNotifyPlayerTurnListenenr(listener: @escaping (Player, Board) -> Void) {
+    public mutating func addNotifyPlayerTurnListenenr(listener: @escaping (Player) -> Void) {
         notifyPlayerTurnListeners.append(listener)
     }
     
@@ -38,42 +39,45 @@ public struct Game {
         playedMoveListeners.append(listener)
     }
     
-    public mutating func addShowWinnerListener(listener: @escaping (Board, Result) -> Void) {
+    public mutating func addShowWinnerListener(listener: @escaping (Result) -> Void) {
         showWinnerListeners.append(listener)
     }
     
-    public mutating func addNotPossibleMoveListener(listener: @escaping (Player, Move) -> Void) {
+    public mutating func addNotPossibleMoveListener(listener: @escaping (Player, Move?) -> Void) {
         notPossibleMoveListeners.append(listener)
+    }
+    
+    public mutating func addBoardChangedListener(listener: @escaping (Board) -> Void) {
+        boardChangedListeners.append(listener)
     }
     
     public mutating func start() {
         for listener in startGameListeners {
-            listener(board)
+            listener()
         }
         
+        notifyBoardChanged()
+
         var currentPlayer = chooseFirstPlayerRandomly()
         var result = (false, Result.notFinished)
         
         while(!result.0) {
             for listener in notifyPlayerTurnListeners {
-                listener(currentPlayer, board)
+                listener(currentPlayer)
             }
             
-            var move = currentPlayer.chooseMove(in: board, with: rules)!
+            notifyBoardChanged()
+
+            var isMove: (Bool, Move?) = (false, nil)
             
+            while(!isMove.0) {
+                isMove = playerMove(currentPlayer)
+                
+            }
+            
+            let move = isMove.1!
             for listener in playedMoveListeners {
                 listener(currentPlayer, move)
-            }
-            
-            while(!rules.isMoveValid(board, move)) {
-                for listener in notPossibleMoveListeners {
-                    listener(currentPlayer, move)
-                }
-                move = currentPlayer.chooseMove(in: board, with: rules)!
-                
-                for listener in playedMoveListeners {
-                    listener(currentPlayer, move)
-                }
             }
             
             guard let movingPiece = board.grid[move.rowOrigin][move.columnOrigin].piece else {
@@ -85,18 +89,53 @@ public struct Game {
             _ = board.remove(atRow: move.rowOrigin , atColumn: move.columnOrigin)
             
             rules.playedMove(move: move, originalBoard: board, afterMoveBoard: board)
-            
+                        
             result = rules.isGameOver(onBoard: board, afterMoveRow: move.rowDestination, andColumn: move.columnDestination)
             
             currentPlayer = move.owner == Owner.player1 ? player2 : player1
         }
         
         for listener in showWinnerListeners {
-            listener(board, result.1)
+            listener(result.1)
         }
+        
+        notifyBoardChanged()
+    }
+    
+    private func playerMove(_ currentPlayer: Player) -> (Bool, Move?) {
+        let move = currentPlayer.chooseMove(in: board, with: rules)
+        
+        guard let m = move else {
+            notifyNotPossibleMove(currentPlayer, move)
+            return (false, nil)
+        }
+        
+        if rules.isMoveValid(board, m) { return (true, m) }
+        
+        for listener in playedMoveListeners {
+            listener(currentPlayer, m)
+        }
+        
+        notifyNotPossibleMove(currentPlayer, m)
+        
+        notifyBoardChanged()
+        
+        return playerMove(currentPlayer)
     }
     
     private func chooseFirstPlayerRandomly() -> Player {
         return Int.random(in: 0...1) == 0 ? player1 : player2
+    }
+    
+    private func notifyBoardChanged() {
+        for listener in boardChangedListeners {
+            listener(board)
+        }
+    }
+    
+    private func notifyNotPossibleMove(_ currentPlayer: Player, _ move: Move?) {
+        for listener in notPossibleMoveListeners {
+            listener(currentPlayer, move)
+        }
     }
 }

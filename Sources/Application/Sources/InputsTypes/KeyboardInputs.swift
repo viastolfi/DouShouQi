@@ -29,8 +29,10 @@ public struct KeyboardInputs {
         guard let destinationColumn = readLine() else {
             return nil
         }
-        
+                
         guard originRow.isNumber || originColumn.isNumber || destinationRow.isNumber || destinationColumn.isNumber else { return nil }
+        
+        guard originRow != "" || originColumn != "" || destinationRow != "" || destinationColumn != "" else { return nil }
         
         return Move(owner: hu.id, rowOrigin: Int(originRow)!, columnOrigin: Int(originColumn)!, rowDestination: Int(destinationRow)!, columnDestination: Int(destinationColumn)!)
     }
