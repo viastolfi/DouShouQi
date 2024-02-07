@@ -13,6 +13,7 @@ import ArgumentParser
 @main
 struct Application_TP5: ParsableCommand {
     mutating func run() throws {
+        // Choose the players
         var game = Game(withRules: VerySimpleRules(),
                         andPlayer1: RandomPlayer(withId: .player1, andName: "Very")!,
                         andPlayer2: RandomPlayer(withId: .player2, andName: "Stupid")!)
@@ -54,6 +55,14 @@ struct Application_TP5: ParsableCommand {
         default:
             return
         }
+        print("**************************************")
+    }
+    
+    private func notPossibleMove(player: Player, move: Move) {
+        print("**************************************")
+        print("😵 Not possible move")
+        print("[\(move.rowOrigin),\(move.columnOrigin)] -> [\(move.rowDestination),\(move.columnDestination)]")
+        print("player \(move.owner.symbol) \(player.id.description) - \(player.name), Chose another move")
         print("**************************************")
     }
 }

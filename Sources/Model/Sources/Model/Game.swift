@@ -17,6 +17,7 @@ public struct Game {
     private var notifyPlayerTurnListeners: [(Player, Board) -> Void] = []
     private var playedMoveListeners: [(Player, Move) -> Void] = []
     private var showWinnerListeners: [(Board,Result) -> Void] = []
+    private var notPossibleMoveListeners: [(Player, Move) -> Void] = []
     
     public init(withRules rules: Rules,andPlayer1 player1: Player,andPlayer2 player2: Player) {
         self.rules = rules
@@ -41,6 +42,10 @@ public struct Game {
         showWinnerListeners.append(listener)
     }
     
+    public mutating func addNotPossibleMoveListener(listener: @escaping (Player, Move) -> Void) {
+        notPossibleMoveListeners.append(listener)
+    }
+    
     public mutating func start() {
         for listener in startGameListeners {
             listener(board)
@@ -61,7 +66,9 @@ public struct Game {
             }
             
             while(!rules.isMoveValid(board, move)) {
-                // print not possible move
+                for listener in notPossibleMoveListeners {
+                    listener(currentPlayer, move)
+                }
                 move = currentPlayer.chooseMove(in: board, with: rules)!
                 
                 for listener in playedMoveListeners {
