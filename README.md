@@ -6,6 +6,7 @@
 - Get code coverage
 - Play the game
 - Game basic rules
+- Choose the players and launch the game
 
 Poject made during the Swift module during my 3rd year at the IUT informatique d'Aubière.
 
@@ -148,3 +149,25 @@ The game basic rules are the same whatever the rules you choose to play in.
      - The game check if the move is winning
      - If it is, we left the game loop and display the winner
      - Else, we change the player to the other one and repeat this loop
+
+#### Choose the players and launch the game
+
+When launching the game you'll have multiple option.
+You can choose the different types of players you want between Human and Stupid AI.
+
+    Welcome in DouShouQi game
+    **************************************
+    Choose start up option : 
+    1 - Two random player
+    2 - One real player vs one random player
+    3 - Two real player
+    0 - leave
+    **************************************
+
+Just choose the game you want by entering the right number.
+
+If you choose to play with HumanPlayer, you can choose their name juste by entering it.
+
+    Choose your name : Vincent
+
+Then you can play the game as much as you want
