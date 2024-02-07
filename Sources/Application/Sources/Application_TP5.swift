@@ -78,25 +78,35 @@ struct Application_TP5: ParsableCommand {
         game.start()
     }
     
+    /// Notify every player that the game has started
     private func notifyStartGame() -> Void {
         print("**************************************")
         print("        ==>> GAME STARTS! <<==        ")
         print("**************************************")
     }
     
+    /// Notify who is it to play
+    /// - Parameter player: The player that has to play
     private func notifyPlayerTurn(player: Player) -> Void {
         print("**************************************")
         print("player \(player.id.symbol) \(player.id.description) - \(player.name), it's your turn")
         print("**************************************")
     }
     
+    /// Notify every player the move the current player has done
+    /// - Parameters:
+    ///   - player: the current player
+    ///   - move: the move he has done
     private func playedMove(player: Player, move: Move) -> Void {
         print("**************************************")
         print("player \(player.id.symbol) \(player.id.description) - \(player.name), has chosen : player\(player.id.description): [\(move.rowOrigin),\(move.columnOrigin)] -> [\(move.rowDestination),\(move.columnDestination)]")
         print("**************************************")
     }
     
-    private func showWinner(result: Result) {
+    
+    /// Notify every player that the game is finished, show the winner and the result
+    /// - Parameter result: result of the game
+    private func showWinner(result: Result) -> Void {
         print("**************************************")
         print("Game Over!!!")
         switch(result) {
@@ -109,7 +119,11 @@ struct Application_TP5: ParsableCommand {
         print("**************************************")
     }
     
-    private func notPossibleMove(player: Player, move: Move?) {
+    /// Notify every player that the move the current player has done is impossible
+    /// - Parameters:
+    ///   - player: the current player
+    ///   - move: the move he has done
+    private func notPossibleMove(player: Player, move: Move?) -> Void {
         print("**************************************")
         print("😵 Not possible move")
         if let move = move {
@@ -121,7 +135,9 @@ struct Application_TP5: ParsableCommand {
         print("**************************************")
     }
     
-    private func showBoard(board: Board) {
+    /// Notify every player that the board has changed and show it
+    /// - Parameter board: the board that has changed
+    private func showBoard(board: Board) -> Void {
         print(board.classique)
     }
 }

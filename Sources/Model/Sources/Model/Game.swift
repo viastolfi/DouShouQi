@@ -13,6 +13,7 @@ public struct Game {
     var player1: Player
     var player2: Player
     
+    /// All the arrays that stocks the called function for displaying
     private var startGameListeners: [() -> Void] = []
     private var notifyPlayerTurnListeners: [(Player) -> Void] = []
     private var playedMoveListeners: [(Player, Move) -> Void] = []
@@ -20,6 +21,11 @@ public struct Game {
     private var notPossibleMoveListeners: [(Player, Move?) -> Void] = []
     private var boardChangedListeners: [(Board) -> Void] = []
     
+    /// initializer of the Game class
+    /// - Parameters:
+    ///   - rules: the rules we are playing on
+    ///   - player1: First player of the game
+    ///   - player2: Second player of the game
     public init(withRules rules: Rules,andPlayer1 player1: Player,andPlayer2 player2: Player) {
         self.rules = rules
         self.board = type(of: rules).createBoard()!
@@ -27,6 +33,7 @@ public struct Game {
         self.player2 = player2
     }
     
+    /// All the fucntion that allow you to add new called function in the corresponding array
     public mutating func addStartGameListener(listener: @escaping () -> Void) {
         startGameListeners.append(listener)
     }
@@ -51,6 +58,7 @@ public struct Game {
         boardChangedListeners.append(listener)
     }
     
+    /// Start the game and the game loop
     public mutating func start() {
         for listener in startGameListeners {
             listener()
@@ -102,6 +110,11 @@ public struct Game {
         notifyBoardChanged()
     }
     
+    /// Current player try to move.
+    /// If the move is possible we return it else we recall this function
+    /// If move is nil (if the HumanPlayer do something wrong for example) we return false
+    /// - Parameter currentPlayer: The current player
+    /// - Returns: We return a tuple with a Bool representing if the move is possible or not and a Move? corresponding to player's move
     private func playerMove(_ currentPlayer: Player) -> (Bool, Move?) {
         let move = currentPlayer.chooseMove(in: board, with: rules)
         
@@ -123,16 +136,23 @@ public struct Game {
         return playerMove(currentPlayer)
     }
     
+    /// Choose who's gonna be the first player randomly
+    /// - Returns: One of the two player
     private func chooseFirstPlayerRandomly() -> Player {
         return Int.random(in: 0...1) == 0 ? player1 : player2
     }
     
+    /// Call the functions that show the board after it changed
     private func notifyBoardChanged() {
         for listener in boardChangedListeners {
             listener(board)
         }
     }
     
+    /// Call the functions that show that a move is impossible
+    /// - Parameters:
+    ///   - currentPlayer: the player that has done the move
+    ///   - move: the move that is not possible
     private func notifyNotPossibleMove(_ currentPlayer: Player, _ move: Move?) {
         for listener in notPossibleMoveListeners {
             listener(currentPlayer, move)
