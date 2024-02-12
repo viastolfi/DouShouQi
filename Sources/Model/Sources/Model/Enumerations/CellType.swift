@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CellType: Equatable {
+public enum CellType: String, Equatable {
     case unknown
     case jungle
     case water

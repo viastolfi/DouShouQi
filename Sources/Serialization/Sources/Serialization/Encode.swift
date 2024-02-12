@@ -8,16 +8,15 @@
 import Foundation
 import Model
 
-struct Encode {
-    public init() { }
-    
-    public static func encode(_ a: Animal) {
+public struct Encode {    
+    public static func encode(_ b: Board) {
         do {
             let jsonEncoder = JSONEncoder()
-            let jsonData = try jsonEncoder.encode(a)
+            jsonEncoder.outputFormatting = .prettyPrinted
+            let jsonData = try jsonEncoder.encode(b)
             
             if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print(jsonString)
+                WriteOnFile.writeJson(jsonString)
             }
         } catch {
             print("Erreur lors de l'encodage JSON : \(error)")
