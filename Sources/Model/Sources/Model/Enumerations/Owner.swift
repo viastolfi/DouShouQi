@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Owner : CustomStringConvertible, Equatable {
+public enum Owner : String, CustomStringConvertible, Equatable {
     /// Change the way a Owner is display
     public var description: String {
         switch self {

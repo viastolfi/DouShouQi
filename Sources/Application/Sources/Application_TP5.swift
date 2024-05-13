@@ -9,10 +9,14 @@ import Foundation
 import Model
 import ModelExtensions
 import ArgumentParser
+import Serialization
 
 @main
 struct Application_TP5: ParsableCommand {
     mutating func run() throws {
+        let b = VerySimpleRules.createBoard()!
+        Encode.encode(b)
+        
         print("Welcome in DouShouQi game")
         print("**************************************")
         print("Choose start up option : ")

@@ -8,7 +8,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
         .package(path: "../Model"),
-        .package(path: "../ModelExtensions")
+        .package(path: "../ModelExtensions"),
+        .package(path: "../Serialization")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -18,7 +19,8 @@ let package = Package(
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "Model", package: "Model"),
-                .product(name: "ModelExtensions", package: "ModelExtensions")
+                .product(name: "ModelExtensions", package: "ModelExtensions"),
+                .product(name: "Serialization", package: "Serialization")
             ]
         ),
     ]
